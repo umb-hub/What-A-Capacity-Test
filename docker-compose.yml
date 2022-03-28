@@ -18,6 +18,7 @@ services:
     volumes:
       - ./docker/php-apache/src:/var/www/html:cached
       - ./logs/web:/var/log/apache2
+    restart: always
     depends_on:
       - db
 
@@ -42,3 +43,4 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
+    restart: always
