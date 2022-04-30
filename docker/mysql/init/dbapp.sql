@@ -1,15 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versione server:              10.1.31-MariaDB - mariadb.org binary distribution
--- S.O. server:                  Win32
--- HeidiSQL Versione:            10.2.0.5599
+-- Versione server:              latest
+-- S.O. server:                  Debian Arm-64bit
 -- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
 -- Dump database dbapp
@@ -20,18 +13,25 @@ USE `dbapp`;
 CREATE TABLE IF NOT EXISTS `tblone` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
-  `description` varchar(128) DEFAULT NULL,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `value` varchar(128) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
--- Dump table dbapp.tbltwo
-CREATE TABLE IF NOT EXISTS `tbltwo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `oneId` int(11) NOT NULL,
-  `val` varchar(64) DEFAULT NULL,
-  `unixtime` int(11) NOT NULL,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+DELIMITER $$
+CREATE PROCEDURE generate_data()
+BEGIN
+  DECLARE i INT DEFAULT 0;
+  WHILE i < 1000 DO
+    INSERT INTO `tblone` (`name`,`value`,`timestamp`) VALUES (
+      MD5(RAND()),
+      ROUND(RAND()*100,2),
+      FROM_UNIXTIME(UNIX_TIMESTAMP('2014-01-01 01:00:00')+FLOOR(RAND()*31536000))
+    );
+    SET i = i + 1;
+  END WHILE;
+END$$
+DELIMITER ;
+
+CALL generate_data();
 
