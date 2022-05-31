@@ -12,6 +12,7 @@ Let's create website capacity test
     - 0.5 vCPU
     - 256mb RAM
     - 256mb Swap Space
+    
 - MariaDB Server
     - 0.5 vCPU
     - 256mb RAM
