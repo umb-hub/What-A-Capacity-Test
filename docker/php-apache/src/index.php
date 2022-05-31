@@ -10,7 +10,8 @@ $conn = mysqli_connect($dbhost, $dbuser, $dbpass);
 mysqli_select_db($conn, "dbapp");
 if (!$conn) {
    var_dump("Connection failed: ".mysqli_connect_error());
-   exit('bye');
+   header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+   die('bye');
 }
 
 var_dump("Successful database connection!");
