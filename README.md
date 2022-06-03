@@ -18,15 +18,15 @@ Performance analysis can be characterized by several indicators, in this work a 
 
 In this work a capacity test, on Apache WebServer connected with a MySQL DataBase, will be runned in following steps:
 
-1. Create a **System Design Architecture** based on container technology, those container will be runned using limited resources in order to elaborate differents tests
+1. Create a **System Design Architecture** based on container technology, those container will be runned using limited resources to elaborate differents tests
 
 2. Define a proper **experimental design** to run out using common techniques in State of Art
 
 3. Collect several **observations** (repetitions) for each value of design
 
-4. Perform a performance analysis in order to determine a proper system configuration using **allocation of variation** and **ANOVA** techniques
+4. Perform a performance analysis to determine a proper system configuration using **allocation of variation** and **ANOVA** techniques
 
-5. Perform a capacity test in order to determinate **knee** and the **usableéé capacity point of work of system defined in previuos step
+5. Perform a capacity test to determinate **knee** and the **usable** capacity point of work of system defined in previuos step
 
 ## System Design 
 
@@ -49,7 +49,7 @@ Tested environment has different components, which include artefacts and interfa
 
 ### Apache HTTP Server 
 
-Apache HTTP Server is a docker container with prebuilded image, that contains Apache WebServer configured with php module, in listening on port 80. Futhermore, MySQL connector is installed in order to communicate with MariaDB component.
+Apache HTTP Server is a docker container with prebuilded image, that contains Apache WebServer configured with php module, in listening on port 80. Futhermore, MySQL connector is installed to communicate with MariaDB component.
 
 There are differents files uploaded in container, those artefacts are usefull to create 3 type of different workload:
 
@@ -60,7 +60,7 @@ There are differents files uploaded in container, those artefacts are usefull to
 
 MariaDB Server is a docker continer with prebuilded image with preconfigured MySQL service in listening on port 3306.
 
-`dbapp.sql` file is preloaded in `/docker-entrypoint-initdb.d` path in order to init e populate database.
+`dbapp.sql` file is preloaded in `/docker-entrypoint-initdb.d` path to init e populate database.
 
 ### Apache JMeter
 
@@ -96,4 +96,4 @@ A full factor design $2^5*5$ would require a total of 160 experiments, in order 
 
 In order to collect usefull data, containing knee and usable capacity point of work, it is needed to stress system untils its usable point.
 
-So preliminar tests will be conducted on highest level of each parameter, in order to individuate a test configuration that led to system errors.
+So preliminar tests will be conducted, on highest level of each parameter, to individuate a test configuration that led to system errors.
