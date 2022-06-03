@@ -39,7 +39,6 @@ Docker will run on this specs:
 
 - Docker cores: 4
 - Docker RAM: 4 GB
-- Swap memory (for each container): 256MB
 
 WebServer is built on simple **2-tier architecture**, using 2 different **Docker container** described using this deployment diagram:
 

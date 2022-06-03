@@ -9,7 +9,6 @@ services:
       - ${APACHE_PORT_EXPOSED}:80
     cpus: 0.5
     mem_limit: 1024m
-    memswap_limit: 256m
     environment:
       DB_HOST: db:${DB_PORT_EXPOSED}
       DB_USER: ${DB_USER}
@@ -33,7 +32,6 @@ services:
       - ${DB_PORT_EXPOSED}:3306
     cpus: 0.5
     mem_limit: 1024m
-    memswap_limit: 256m
     volumes:
       - ./docker/mysql/init:/docker-entrypoint-initdb.d
       - ./logs/db:/var/log/mysql
