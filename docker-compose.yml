@@ -32,7 +32,7 @@ services:
     ports:
       - ${DB_PORT_EXPOSED}:3306
     cpus: 0.5
-    mem_limit: 2048m
+    mem_limit: 1024m
     memswap_limit: 256m
     volumes:
       - ./docker/mysql/init:/docker-entrypoint-initdb.d
