@@ -11,12 +11,13 @@ More generally, performance analysis refers to characterizing performance under 
 Performance analysis can be characterized by several indicators, in this work a web server will be studied using those indicators:
 
 - *Response Rate (Throughput)*
+- *Elapsed Time*
 - *Latency*
 - *Requests Failed*
 
 ## Description
 
-In this work a capacity test, on Apache WebServer connected with a MySQL DataBase, will be runned in following steps:
+A capacity test, on Apache WebServer connected with a MySQL database, will be runned in following steps:
 
 1. Create a **System Design Architecture** based on container technology, those container will be runned using limited resources to elaborate differents tests
 
@@ -50,10 +51,10 @@ Tested environment has different components, which include artefacts and interfa
 
 Apache HTTP Server is a docker container with prebuilded image, that contains Apache WebServer configured with php module, in listening on port 80. Futhermore, MySQL connector is installed to communicate with MariaDB component.
 
-There are differents files uploaded in container, those artefacts are usefull to create 3 type of different workload:
+There are differents files uploaded in container, those artefacts are usefull to create 2 type of different workload:
 
 - **Static Workload**: include only html static pages to download
-- **Dynamic Workload**: static and dynamic pages are generated using operation on database
+- **Dynamic Workload**: static and dynamic pages are generated using operations on database
 
 ### MariaDB Server
 
@@ -176,7 +177,7 @@ Generator polynomial can be used to calculate all of confounded effects:
 | DE | B | ACD | ABCE |
 | CDE | AD | AC | ABE |
 
-#### Model Design
+### Model Design
 
 The response to be evuluted is the **mean throughput** of system.
 
@@ -191,17 +192,17 @@ In order to collect usefull data, containing **knee** and **usable** capacity po
 
 ### Workload Characterization
 
-Preliminar tests will be conducted, on highest level of each parameter, to individuate a **load test configuration** in JMeter that led to system errors. Futhermore, a particular focus is paid on JMeter exceptions, workload is tuned in order to avoid any client error.
+Preliminar tests will be conducted, on system configuration with highest level of each parameter, to individuate a **load test configuration** in JMeter that led to system errors. Futhermore, a particular focus is paid on JMeter exceptions, workload is tuned in order to avoid any client error.
 
 Simulated workload will be rappresentative for a stress test on WebServer using those criterias:
 
 - A lot of people try to connect server
-- Number of user active is incremental: half of test time is used to activate all user and the other one is used on full load
-- Each user generate a traffic with a few of seconds for request
+- Number of user active is incremental: half of test time is used to activate all user and the other half of time is used to stress system on full load
+- Each user generate a traffic with a request for each 2 seconds
 - Different static pages will be loaded using a **Random Order Controller** in order to generate a static traffic considering 2MB as mean of generic HTML page size.
 - Dynamic workload will be performed using a **Random Controller** in order to generate random traffic using static pages and dynamic webpages with database operations
 
-In summary this **workload characterization** will be placed on:
+In summary, this **workload characterization** has those parameters:
 
 | Parameter | Value |
 | :- | :-: |
@@ -209,5 +210,5 @@ In summary this **workload characterization** will be placed on:
 | Virtual users | 300 threads |
 | Ramp-up period | 150 seconds |
 | Throughput (for user) | 30 requests/minute |
-| Static Workload| Static HTTP pages sized: <br> 500KB <br> 1MB <br> 2MB <br> |
-| Dynamic Workload | PHP using r/w operation on MySQL Server and static HTTP pages |
+| Static Workload | Static HTTP pages sized: <br> 500KB <br> 1MB <br> 2MB <br> 4MB |
+| Dynamic Workload | PHP using r/w operations on MySQL Server and static HTTP pages |
