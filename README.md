@@ -178,9 +178,11 @@ Generator polynomial can be used to calculate all of confounded effects:
 
 #### Model Design
 
+The response to be evuluted is the **mean throughput** of system.
 
+The response will be modeled using a linear regression:
 
-$$y = q_c $$
+$$y = q_C x_C + q_D x_D + q_E x_E + q_{CD} x_{CD} + q_{DE} x_{DE} + q_{CDE} x_{CDE}$$
 
 
 ## Data collection
