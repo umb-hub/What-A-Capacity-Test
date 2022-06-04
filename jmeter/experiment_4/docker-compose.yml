@@ -1,0 +1,44 @@
+version: "3.1"
+
+services:
+  web:
+    container_name: ${PROJECT_NAME}_web
+    build:
+      context: ../../docker/php-apache
+    ports:
+      - ${APACHE_PORT_EXPOSED}:80
+    cpus: 0.125
+    mem_limit: 1024m
+    environment:
+      DB_HOST: db:${DB_PORT_EXPOSED}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+    volumes:
+      - ../../docker/php-apache/src:/var/www/html:cached
+      - ../../logs/web:/var/log/apache2
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    container_name: ${PROJECT_NAME}_db
+    build:
+      context: ../../docker/mysql
+      args:
+        - DB_USER=${DB_USER}
+        - DB_GROUP=${DB_GROUP}
+    ports:
+      - ${DB_PORT_EXPOSED}:3306
+    cpus: 0.5
+    mem_limit: 256m
+    volumes:
+      - ../../docker/mysql/init:/docker-entrypoint-initdb.d
+      - ../../logs/db:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOTPASS}
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    restart: always
