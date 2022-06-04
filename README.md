@@ -169,13 +169,13 @@ Generator polynomial can be used to calculate all of confounded effects:
 
 | Effect | Confounded 1 | Confounded 2 | Confounded 3 |
 | :-: | :-: | :-: | :-: |
-| C | AE | ABD | BCDE | 
-| D | BE | ABC | ACDE |
-| E | AC | BD | ABCDE |
-| CD | AB | BCE | ADE |
-| CE | A | BCE | ABDE |
-| DE | B | ACD | ABCE |
-| CDE | AD | AC | ABE |
+| **C** | AE | ABD | BCDE | 
+| **D** | BE | ABC | ACDE |
+| **E** | AC | BD | ABCDE |
+| **CD** | AB | BCE | ADE |
+| **CE** | A | BCE | ABDE |
+| **DE** | B | ACD | ABCE |
+| **CDE** | AD | AC | ABE |
 
 ### Model Design
 
@@ -205,9 +205,9 @@ Simulated workload will be rappresentative for a stress test on WebServer using 
 In summary, this **workload characterization** has those parameters:
 
 | Parameter | Value |
-| :- | :-: |
+| :-: | :- |
 | Test duration | 5 minutes |
-| Virtual users | 300 threads |
+| Virtual users | 250 threads |
 | Ramp-up period | 150 seconds |
 | Throughput (for user) | 30 requests/minute |
 | Static Workload | Static HTTP pages sized: <br> 500KB <br> 1MB <br> 2MB <br> 4MB |
