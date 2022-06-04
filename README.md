@@ -89,10 +89,123 @@ For each factor a minimun and maximum level will be evaluated:
 | **MariaDB RAM** | 256 MB | 1 GB |
 | **Workload** | Static | Dynamic |
 
+The response to be evuluted is the **mean throughput** of system.
+
+### Fraction Factor Design
+
 A full factor design $2^5*5$ would require a total of 160 experiments, in order to reduce number of expirements a fractional factor design $2^{5-2}*5$ will be placed on with a total of 40 expirements. 
+
+Using following association:
+
+| Factor | Name |
+| :-: | :-: |
+| **Apache CPU** | A |
+| **MariaDB CPU** | B |
+| **Apache RAM** | C |
+| **MariaDB RAM** | D|
+| **Workload** | E |
+
+#### Effect Confusion
+
+A decision needs to be taken about factor confusion, in particular designer decided to confuse:
+
+- A = CE
+- B = DE
+
+Sign table will be generated simply using `itertools`:
+
+```python
+import itertools
+import pandas as pd
+
+C = [-1, +1]
+D = [-1 , +1]
+E = [-1 , +1]
+
+Table = []
+
+for x in itertools.product(C, D, E):
+  Table.append(x)
+
+TableSign = pd.DataFrame(Table, columns=["C", "D", "E"])
+TableSign["CD"] = TableSign["C"] * TableSign["D"]
+TableSign["CE"] = TableSign["C"] * TableSign["E"]
+TableSign["DE"] = TableSign["D"] * TableSign["E"]
+TableSign["CDE"] = TableSign["C"] * TableSign["D"] * TableSign["E"]
+TableSign.to_markdown()
+```
+
+Result:
+
+|  Experiment  |   C |   D |   E |   CD | A=CE | B=DE |   CDE |
+|---:|----:|----:|----:|-----:|-----:|-----:|------:|
+|  0 |  -1 |  -1 |  -1 |    1 |    1 |    1 |    -1 |
+|  1 |  -1 |  -1 |   1 |    1 |   -1 |   -1 |     1 |
+|  2 |  -1 |   1 |  -1 |   -1 |    1 |   -1 |     1 |
+|  3 |  -1 |   1 |   1 |   -1 |   -1 |    1 |    -1 |
+|  4 |   1 |  -1 |  -1 |   -1 |   -1 |    1 |     1 |
+|  5 |   1 |  -1 |   1 |   -1 |    1 |   -1 |    -1 |
+|  6 |   1 |   1 |  -1 |    1 |   -1 |   -1 |    -1 |
+|  7 |   1 |   1 |   1 |    1 |    1 |    1 |     1 |
+
+Algebra of confunding is usefull to obtain generator polynomial and find relationship of confusions.
+$$
+\begin{cases}
+A = CE \\
+B = DE \\
+\end{cases} \implies AB= CD
+$$
+
+This relationship is usefull to find generator polynomial $I$:
+
+$$ CD = AB$$
+$$ CD \cdot D = AB \cdot D $$
+$$ C = ABD $$
+$$ C \cdot C = ABD \cdot C $$
+$$ I = ABCD$$
+
+Generator polynomial can be used to calculate all of confounded effects:
+
+| Effect | Confounded 1 | Confounded 2 | Confounded 3 |
+| :-: | :-: | :-: | :-: |
+| C | AE | ABD | BCDE | 
+| D | BE | ABC | ACDE |
+| E | AC | BD | ABCDE |
+| CD | AB | BCE | ADE |
+| CE | A | BCE | ABDE |
+| DE | B | ACD | ABCE |
+| CDE | AD | AC | ABE |
+
+#### Model Design
+
+
+
+$$y = q_c $$
+
 
 ## Data collection
 
-In order to collect usefull data, containing knee and usable capacity point of work, it is needed to stress system untils its usable point.
+In order to collect usefull data, containing **knee** and **usable** capacity point of work, it is needed to stress system untils its usable point.
 
-So preliminar tests will be conducted, on highest level of each parameter, to individuate a test configuration that led to system errors.
+### Workload Characterization
+
+Preliminar tests will be conducted, on highest level of each parameter, to individuate a **load test configuration** in JMeter that led to system errors. Futhermore, a particular focus is paid on JMeter exceptions, workload is tuned in order to avoid any client error.
+
+Simulated workload will be rappresentative for a stress test on WebServer using those criterias:
+
+- A lot of people try to connect server
+- Number of user active is incremental: half of test time is used to activate all user and the other one is used on full load
+- Each user generate a traffic with a few of seconds for request
+- Different static pages will be loaded using a **Random Order Controller** in order to generate a static traffic considering 2MB as mean of generic HTML page size.
+- Dynamic workload will be performed using a **Random Controller** in order to generate random traffic using static pages and dynamic webpages with database operations
+
+In summary this **workload characterization** will be placed on:
+
+| Parameter | Value |
+| :- | :-: |
+| Test duration | 5 minutes |
+| Virtual users | 300 threads |
+| Ramp-up period | 150 seconds |
+| Throughput (for user) | 30 requests/minute |
+| Static Workload| Static HTTP pages sized: <br> 500KB <br> 1MB <br> 2MB <br> |
+| Dynamic Workload | PHP using r/w operation on MySQL Server and static HTTP pages |
