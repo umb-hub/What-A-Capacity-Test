@@ -150,6 +150,7 @@ Result:
 |  7 |   1 |   1 |   1 |    1 |    1 |    1 |     1 |
 
 Algebra of confunding is usefull to obtain generator polynomial and find relationship of confusions.
+
 $$
 \begin{cases}
 A = CE \\
@@ -160,9 +161,13 @@ $$
 This relationship is usefull to find generator polynomial $I$:
 
 $$ CD = AB$$
+
 $$ CD \cdot D = AB \cdot D $$
+
 $$ C = ABD $$
+
 $$ C \cdot C = ABD \cdot C $$
+
 $$ I = ABCD$$
 
 Generator polynomial can be used to calculate all of confounded effects:
