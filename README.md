@@ -216,4 +216,9 @@ In summary, this **workload characterization** has those parameters:
 | Ramp-up period | 150 seconds |
 | Throughput (for user) | 30 requests/minute |
 | Static Workload | Static HTTP pages sized: <br> 500KB <br> 1MB <br> 2MB <br> 4MB |
-| Dynamic Workload | PHP using r/w operations on MySQL Server and static HTTP pages |
+| Dynamic Workload | PHP using r/w operations on MySQL Server |
+
+### Test Automatization
+
+During data collection phase, automatization process can be usefull to collect data from system fastly, in `jmeter` folder there are a subfolder for each experiment, in which is created a `run_experiment.sh` script that will be used to run JMeter with proper configuration.
+
