@@ -120,7 +120,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="read" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${__Random(100,1000)}</stringProp>
+                  <stringProp name="Argument.value">${__Random(10,100)}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">read</stringProp>
@@ -147,7 +147,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="write" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${__Random(10,100)}</stringProp>
+                  <stringProp name="Argument.value">${__Random(1,10)}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">write</stringProp>
@@ -233,7 +233,7 @@
               <sampleCount>true</sampleCount>
             </value>
           </objProp>
-          <stringProp name="filename">dynamic_${__time(YMDHMS)}.csv</stringProp>
+          <stringProp name="filename">${__time(YMDHMS)}.csv</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
