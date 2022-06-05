@@ -54,7 +54,7 @@ Apache HTTP Server is a docker container with prebuilded image, that contains Ap
 There are differents files uploaded in container, those artefacts are usefull to create 2 type of different workload:
 
 - **Static Workload**: include only html static pages to download
-- **Dynamic Workload**: static and dynamic pages are generated using operations on database
+- **Dynamic Workload**: dynamic pages are generated using operations on database
 
 ### MariaDB Server
 
@@ -205,7 +205,7 @@ Simulated workload will be rappresentative for a stress test on WebServer using 
 - Number of user active is incremental: half of test time is used to activate all user and the other half of time is used to stress system on full load
 - Each user generate a traffic with a request for each 2 seconds
 - Different static pages will be loaded using a **Random Order Controller** in order to generate a static traffic considering 2MB as mean of generic HTML page size.
-- Dynamic workload will be performed using a **Random Controller** in order to generate random traffic using static pages and dynamic webpages with database operations
+- Dynamic workload will be performed using a **Random Controller** in order to generate random traffic using dynamic webpages with database operations
 
 In summary, this **workload characterization** has those parameters:
 
