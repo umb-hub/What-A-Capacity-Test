@@ -310,3 +310,5 @@ Where:
 Both factors are significant, so the results are significant, and factor has a low importance biased from static workload, in which importance is almost zero.
 
 A different investigation using 2 different experiments for each workload is needed to validate the results.
+
+[Here](./notebooks/Performance_Analysis_Factor_Analysis.ipynb) for link for complete exercise with code.
