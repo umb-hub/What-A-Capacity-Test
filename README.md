@@ -106,12 +106,14 @@ Using following association:
 | **MariaDB RAM** | D|
 | **Workload** | E |
 
-#### Effect Confusion
+#### Effect Counfouding
 
-A decision needs to be taken about factor confusion, in particular designer decided to confuse:
+A decision needs to be taken about factor counfouding, in particular designer decided to confuse:
 
 - A = CE
 - B = DE
+
+This choices were dicted by the possible relationship between workload and memory RAM of same component.
 
 Sign table will be generated simply using `itertools`:
 
@@ -182,15 +184,6 @@ Generator polynomial can be used to calculate all of confounded effects:
 | **DE** | B | ACD | ABCE |
 | **CDE** | AD | AC | ABE |
 
-### Model Design
-
-The response to be evuluted is the **mean throughput** of system.
-
-The response will be modeled using a linear regression:
-
-$$y = q_C x_C + q_D x_D + q_E x_E + q_{CD} x_{CD} + q_{DE} x_{DE} + q_{CDE} x_{CDE}$$
-
-
 ## Data collection
 
 In order to collect usefull data, containing **knee** and **usable** capacity point of work, it is needed to stress system untils its usable point.
@@ -222,3 +215,98 @@ In summary, this **workload characterization** has those parameters:
 
 During data collection phase, automatization process can be usefull to collect data from system fastly, in `jmeter` folder there are a subfolder for each experiment, in which is created a `run_experiment.sh` script that will be used to run JMeter with proper configuration.
 
+## Allocation of Varation and ANOVA
+
+Visual analysis is performed as preliminary step to obtain usefull information and make hypothesis. As shown in sign table, experiments with even number are performed using static workload, instead of experiments with odd number using dynamic workload.
+
+![experiments](./images/experiments.png)
+
+In static workload, after knee point the throughput is almost constant, while in dynamic workload the response decreases significantly due to MariaDB server's restart.
+
+The response, evaluated in terms of mean throughput, will be significantly different for static workload and dynamic workload, so we will be expected to observe Workload factor as important effect.
+
+Futhermore the knee and usable point distance in the throughput curve are different for static workload and dynamic workload, so we will be accurately choice the knee point in a different way for each workload.
+
+### Response model
+
+The response is defined as the mean throughput, which is the average number of requests per second, in order to evaluate importance and significance of each effect/interaction, the response needs to be modeled.
+
+$$y_{ijkz} = \mu + \alpha_i + \beta_j + \gamma_k + \delta_{ij} + \zeta_{ik} + \eta_{jk} + \sigma_{ijk} + e_{ijkz}$$
+
+Where:
+
+| Variable | Description |
+| :-: | :-: |
+| **$\mu$** | Mean of response |
+| **$\alpha_i$** | Factor C effect |
+| **$\beta_j$** | Factor D effect |
+| **$\gamma_k$** | Factor E effect |
+| **$\delta_{ij}$** | Interaction C-D effect |
+| **$\zeta_{ik}$** | Interaction C-E effect |
+| **$\eta_{jk}$** | Interaction D-E effect |
+| **$\sigma_{ijk}$** | Interaction C-D-E effect |
+| **$e_{ijkz}$** | Sperimental error |
+
+Using this model and some assumptions, we can obtain a linear model, which will be used to estimate the effect of each parameter.
+
+In order to evaluate the effects of factors, we need to estimate the variance and significance of the effects. We will use the following procedure:
+
+1. Calculate variance for each factor and interaction.
+2. Individue the most important factors/interactions.
+3. Validating the results by conducting an ANOVA on interearated factors.
+
+Variance is calculated using Sum of Squares method, remembering that sum of effect, interaction and error along axis are all equal to zero, so relationship can be simplified to:
+
+$$
+\sum y^2_{ijkz} = mnpr\cdot μ^2 + npr\sum_{i}α^2 + mpr\sum_{j}β^2 + mnr\sum_{k}γ^2 + pr\sum_{i,j}δ^2 + mr\sum_{i,k}ζ^2 + nr\sum_{j,k}\eta^2 + r \sum_{i,j,k}\theta^2 + \sum_{i,j,k,z} e^2 
+$$
+
+$$
+SST = SSO + SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
+$$
+
+### Allocation of Variation
+
+Allocation of Variation of factor/interaction is calculated as follows:
+
+$$Variation = \frac{\text{Sum of Square of factor}}{SST}$$
+
+Recording confounded effects:
+
+- A = CE
+- B = DE
+
+A bar chart is used to indicate the most important factor/interaction:
+
+![bar chart](./images/bar_chart.png)
+
+### ANOVA Test
+
+In order to validate the results, we need to conduct an ANOVA test on important factors, so prelimanary we compute degrees of freedom of each factor:
+
+$$
+SST = SSO + SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
+$$
+
+$$
+mnpr = 1 + (m-1) + (n-1) + (p-1) + (m-1)(n-1) + (m-1)(p-1) + (n-1)(p-1) + (m-1)(n-1)(p-1) + mnp(r-1)
+$$
+
+Using a 2^k factorial design, we have only one degree of freedom for each factor and interaction, so we have only one Fisher table's value to compare (remembering that degree of error $mnp(r-1) = 32$).
+
+Using a significance level of 0.05, we can calculate F-value to compare to significance of factor/interaction, this value is 4.15.
+
+Significance of level using ANOVA classical test is calculated as follows:
+
+$$F = \frac{\frac{SSA}{\nu_A}}{\frac{SSE}{\nu_e}} = \frac{MSA}{MSE}$$
+
+Where:
+
+- $\nu_A$ : degree of freedom for factor A
+- $\nu_e$ : degree of freedom for sperimental error
+- $MSA$ : mean square of factor A
+- $MSE$ : mean square of sperimental error
+
+Both factors are significant, so the results are significant, and factor has a low importance biased from static workload, in which importance is almost zero.
+
+A different investigation using 2 different experiments for each workload is needed to validate the results.
