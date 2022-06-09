@@ -11,8 +11,7 @@ make test
 
 Run all experiment with 100 tests for each:
 ```bash
-END=100
-make all
+make all END=100
 ```
 
 Run all experiment with 5 tests for each:
