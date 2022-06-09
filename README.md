@@ -311,4 +311,38 @@ Both factors are significant, so the results are significant, and factor has a l
 
 A different investigation using 2 different experiments for each workload is needed to validate the results.
 
-[Here](./notebooks/Performance_Analysis_Factor_Analysis.ipynb) for link for complete exercise with code.
+[Here](./notebooks/Performance_Analysis_Factor_Analysis.ipynb) link for complete exercise with code.
+
+## Capacity Test
+
+Considering previous results, capacity test will be performed on a dynamic workload's configuration. Analist decided based on the previous results, to test the configuration #3:
+
+- Apache CPU: 0.125 vCPU (Level 1)
+- Apache RAM: 256MB RAM (Level 1)
+- MariaDB CPU: 0.5 vCPU (Level 2)
+- MariaDB RAM: 1GB RAM (Level 2)
+
+Performance analysis can be characterized by several indicators, in this case will be studied those indicators:
+
+| Indicator | Description |
+| --------- | ----------- |
+| *Response Rate (Throughput)* | The **number of requests** per second that the application can handle. |
+| *Elapsed Time* | The time it takes for the server to **handle** a request. |
+| *Latency* | The time it takes for the server to **respond** to a request. |
+| *Requests Failed* | The number of requests that **failed**. |
+
+![capacity test](./images/capacity.png)
+
+As shown in the figure, latency and elapsed have a similar behavior, that because of the nature of the workload, infact too much SQL requests led to MariaDB component to crash and recovery phase is not fast enough to handle the workload.
+
+### Capacity Point
+
+**Knee Capacity** is the point beyond which the response time increases rapidly as the load but the gain in throughput is small. Before the knee, the response time does not increase significantly but the throughput rises as the load increases.
+
+**Usable Capacity** is the point of maximum throughput achievable without exceeding a prespecified response time limit.
+
+In this case knee and usable capacity are very close, so it is a good practice to choose a smaller knee capacity to dimensionate the workload: analist decided to individuate the knee point as the point at 100 seconds of workload (about 160 virtual users online).
+
+Usable Point is individuated when throughput stop to increase and system start to return errors due to component crash: analist decide to individuate the usable point as the point at 140 seconds of workload (about 230 virtual users online).
+
+[Here](./notebooks/Capacity_Test_Dynamic.ipynb) link for complete exercise with code.
