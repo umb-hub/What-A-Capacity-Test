@@ -8,5 +8,7 @@ logs.log.*
 .DS_Store
 
 # Notebook checkpoints
-
 .ipynb_checkpoints
+
+# VSCode
+settings.json

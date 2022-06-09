@@ -283,7 +283,7 @@ In order to evaluate the effects of factors, we need to estimate the variance an
 Variance is calculated using Sum of Squares method, remembering that sum of effect, interaction and error along axis are all equal to zero, so relationship can be simplified to:
 
 $$
-\sum y^2_{ijkz} = mnpr\cdot μ^2 + npr\sum_{i}α^2 + mpr\sum_{j}β^2 + mnr\sum_{k}γ^2 + pr\sum_{i,j}δ^2 + mr\sum_{i,k}ζ^2 + nr\sum_{j,k}\eta^2 + r \sum_{i,j,k}\theta^2 + \sum_{i,j,k,z} e^2 
+\sum y^2_{ijkz} = mnpr\cdot \mu^2 + npr\sum_{i}\alpha^2 + mpr\sum_{j}\beta^2 + mnr\sum_{k}\gamma^2 + pr\sum_{i,j}\delta^2 + mr\sum_{i,k}\zeta^2 + nr\sum_{j,k}\eta^2 + r \sum_{i,j,k}\theta^2 + \sum_{i,j,k,z} e^2 
 $$
 
 $$
