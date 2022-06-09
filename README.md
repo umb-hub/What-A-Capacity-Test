@@ -1,6 +1,31 @@
 # What A Capacity Test?
 Let's create website's capacity test
 
+## Instruction
+
+Run test webserver:
+
+```bash
+make test
+```
+
+Run all experiment with 100 tests for each:
+```bash
+END=100
+make all
+```
+
+Run all experiment with 5 tests for each:
+```bash
+make all_5
+```
+
+Run single experiment once:
+```bash
+END=1
+experiment0
+```
+
 ## Abstract
 *What is a capacity test?*
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in {1..5}
+for i in $(seq 1 $END);
 do
    docker-compose down
    docker-compose up -d
