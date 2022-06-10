@@ -12,3 +12,6 @@ logs.log.*
 
 # VSCode
 settings.json
+
+# Documents
+*.pdf

@@ -9,17 +9,17 @@ Run test webserver:
 make test
 ```
 
-Run all experiment with 100 tests for each:
+Run all experiment with 100 tests for each configuration:
 ```bash
 make all END=100
 ```
 
-Run all experiment with 5 tests for each:
+Run all experiment with 5 tests for each configuration:
 ```bash
 make all_5
 ```
 
-Run single experiment once:
+Run single experiment once on single configuration:
 ```bash
 END=1
 experiment0
