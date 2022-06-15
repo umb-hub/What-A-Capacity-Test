@@ -286,7 +286,11 @@ $$
 $$
 
 $$
-SST = SSO + SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
+SSY = SSO + SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
+$$
+
+$$
+SST = SSY - SSO = SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
 $$
 
 ### Allocation of Variation
@@ -309,11 +313,11 @@ A bar chart is used to indicate the most important factor/interaction:
 In order to validate the results, we need to conduct an ANOVA test on important factors, so prelimanary we compute degrees of freedom of each factor:
 
 $$
-SST = SSO + SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
+SST = SSY - SSO = SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
 $$
 
 $$
-mnpr = 1 + (m-1) + (n-1) + (p-1) + (m-1)(n-1) + (m-1)(p-1) + (n-1)(p-1) + (m-1)(n-1)(p-1) + mnp(r-1)
+mnpr - 1 =  (m-1) + (n-1) + (p-1) + (m-1)(n-1) + (m-1)(p-1) + (n-1)(p-1) + (m-1)(n-1)(p-1) + mnp(r-1)
 $$
 
 Using a 2^k factorial design, we have only one degree of freedom for each factor and interaction, so we have only one Fisher table's value to compare (remembering that degree of error $mnp(r-1) = 32$).
@@ -353,7 +357,6 @@ Performance analysis can be characterized by several indicators, in this case wi
 | *Response Rate (Throughput)* | The **number of requests** per second that the application can handle. |
 | *Elapsed Time* | The time it takes for the server to **handle** a request. |
 | *Latency* | The time it takes for the server to **respond** to a request. |
-| *Requests Failed* | The number of requests that **failed**. |
 
 ![capacity test](./images/capacity.png)
 
