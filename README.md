@@ -37,7 +37,6 @@ Performance analysis can be characterized by several indicators, in this work a 
 - *Response Rate (Throughput)*
 - *Elapsed Time*
 - *Latency*
-- *Requests Failed*
 
 ## Description
 
@@ -65,7 +64,7 @@ Docker will run on this specs:
 - Docker cores: 4
 - Docker RAM: 4 GB
 
-WebServer is built on simple **2-tier architecture**, using 2 different **Docker container** described using this deployment diagram:
+WebServer is built on simple **3-tier architecture**, using 2 different **Docker container** described using this deployment diagram:
 
 ![Deploy Diagram](./images/deploy.png)
 
@@ -289,6 +288,10 @@ $$
 SSY = SSO + SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
 $$
 
+$SSY$ rappresents Sum of Square of model response, however variance must be calculate in relationship with Sum of Square of Total Variation $SST$, defined as difference between model response e mean response.
+
+$$SST = \sum_{i,j,k,z} (y_{ijkz}-\overline{y_{....}})^2$$
+
 $$
 SST = SSY - SSO = SSC + SSD + SSE + SSCD + SSCE + SSDE + SSCDE
 $$
@@ -343,11 +346,11 @@ A different investigation using 2 different experiments for each workload is nee
 
 ## Capacity Test
 
-Considering previous results, capacity test will be performed on a dynamic workload's configuration. Analist decided based on the previous results, to test the configuration #3:
+Considering previous results, capacity test will be performed on a dynamic workload's configuration. Analist decided based on the previous results, to test following configuration:
 
 - Apache CPU: 0.125 vCPU (Level 1)
 - Apache RAM: 256MB RAM (Level 1)
-- MariaDB CPU: 0.5 vCPU (Level 2)
+- MariaDB CPU: 0.125 vCPU (Level 1)
 - MariaDB RAM: 1GB RAM (Level 2)
 
 Performance analysis can be characterized by several indicators, in this case will be studied those indicators:
