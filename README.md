@@ -311,6 +311,15 @@ A bar chart is used to indicate the most important factor/interaction:
 
 ![bar chart](./images/bar_chart.png)
 
+Results of most important factor/interaction are showed in following table:
+
+| Effect | Confounded 1 | Confounded 2 | Confounded 3 | Importance |
+| :-: | :-: | :-: | :-: | :-: |
+| **C** | AE | ABD | BCDE | ~25% |
+| **DE** | B | ACD | ABCE | ~64% |
+
+MariaDB CPU factor results as important factor explaining 25% of total variation of the system, but MariaDB RAM factor (confused with DE interaction) is the most important factor explaining 65% of total variation.
+
 ### ANOVA Test
 
 In order to validate the results, we need to conduct an ANOVA test on important factors, so prelimanary we compute degrees of freedom of each factor:
@@ -338,7 +347,9 @@ Where:
 - $MSA$ : mean square of factor A
 - $MSE$ : mean square of sperimental error
 
-Both factors are significant, so the results are significant, and factor has a low importance biased from static workload, in which importance is almost zero.
+Both factors are significant, so the results are significant.
+
+Nevertheless results seems biased from dynamic workload, infact MariaDB components is obviously not relevant for static workload, but they results as most important factor.
 
 A different investigation using 2 different experiments for each workload is needed to validate the results.
 
